@@ -1,0 +1,84 @@
+Bankloans Project
+Assumptions:
+1. The bank has a database of all the customers with their details.
+2. The bank has a database of all the previous loan applicants with their details.
+3. The bank has a database of all the previous fund transactions with their details.
+4. The bank has a database of all the previous loan transactions with their details.
+5. only Loan providers can access the funds amortization schedule.
+6. bank personnel can't delete the loan application once it is submitted.
+7. bank personnel can't delete the loan once it is approved.
+8. bank personnel can't delete the loan once it is rejected.
+9. customers pay their loans on time.
+10. customers pay their loans in full.
+11. customers pay their loans in installments.
+12. once loans are approved, they are transferred to the customer.
+13. once fund applications are approved, they are transferred to the bank.
+14. only customers can delete the loan application.
+15. only Loan providers can delete the fund application.
+
+Loan Application Workflow:
+1. customer applies for a loan.
+    a. Loan amount must be greater than the minimum amount.
+    b. loan amount must be less than the maximum amount.
+    c. loan amount must be less than the bank's total funds.
+2. bank personnel reviews the application.
+3. bank personnel approves the application.
+4. bank personnel rejects the application.
+
+Fund Application Workflow:
+1. Loan provider applies for a fund.
+    a. Fund amount must be greater than the minimum amount.
+2. bank personnel reviews the application.
+3. bank personnel approves the application.
+4. bank personnel rejects the application.
+
+
+steps to run the project:
+pip install -r requirements.txt
+python manage.py makemigrations loans
+python manage.py migrate
+python manage.py runserver
+
+APIs to test the project:
+1. /fund-application/ - POST,GET
+    for POST request, send the following data in the body:
+    {
+        "fund_amount": 100000
+    }
+    for GET request, no data is required.
+2. /fund-application/<int:pk>/ -  DELETE
+    for DELETE request, no data is required, just the id of the fund application in the URL.
+3. /loan-application/ - POST,GET
+    for POST request, send the following data in the body:
+    {
+        "loan_amount":5000,
+        "loan_tenure":12
+    }
+    for GET request, no data is required.
+4. /loan-application/<int:pk>/ -  DELETE
+    for DELETE request, no data is required, just the id of the loan application in the URL.
+5. /transaction/ - POST,GET
+    for POST request, send the following data in the body:
+    {
+        "transaction_type": "fund",
+        "transaction_amount": 100000
+    }
+    for GET request, no data is required.
+6. /bank-panel-fund/ - GET,POST
+    for POST request, send the following data in the body:
+    {
+        "id":4,
+        "application_status":"approved"
+    }
+    for GET request, no data is required.
+
+7. /bank-panel-loan/ - GET,POST
+    for POST request, send the following data in the body:
+    {
+        "id":4,
+        "loan_interest_rate":2.5,
+        "application_status":"approved"
+    }
+    for GET request, no data is required.
+9. /amortization/<int:pk>/ - GET
+    for GET request, no data is required, just the id of the loan application in the URL.
